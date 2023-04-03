@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expang-lg navbar-light bg-light border-bottom">
+    <a class="navbar-brand" href="{{ url_for('post_list.post_list') }}">JUNGLE Story</a>
+
+    
+    
+    <div class="flex-grow-0" id="navbarNav">
+        {% if g.user %}
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('root.logout') }}">{{ g.user.user_name }} (로그아웃)</a>
+            </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">계정생성</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">로그인</a>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+</nav>

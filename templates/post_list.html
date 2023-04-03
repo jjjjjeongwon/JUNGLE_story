@@ -1,0 +1,42 @@
+{% extends "base2.html" %}
+{% block content %}
+<a href="{{ url_for('post_list.write_post') }}" class="btn btn-primary">포스트 작성</a>
+<table class="table">
+    <thead>
+        <tr class="thead-dark">
+            <th>번호</th>
+            <th style="width:50% text-center;">제목</th>
+            <th>글쓴이</th>
+            <th>작성일시</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if post_list %}
+        {% for post in post_list %}
+        <tr class="text-center">
+            <td>{{ loop.index }}</td>
+            <td class="text-left">
+                <a href="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}">{{ post.title }}</a>
+                {% if post.file %}
+                <i class="fa-sharp fa-solid fa-file"></i>
+                {% endif %} 
+            </td>
+            <td>
+                {% if post.author %}
+                <a>{{ post.author }}</a>
+                {% endif %}
+            </td>
+            <td>
+                <a>{{ post.create_date|datetime }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">질문이 없습니다.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}
