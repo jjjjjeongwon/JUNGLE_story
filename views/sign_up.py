@@ -11,14 +11,14 @@ db = client.dbjungle
 bp = Blueprint('sign_up', __name__, url_prefix='/sign_up')
 
 
-@bp.route('/sign_up/', methods=('GET', 'POST'))
+@bp.route('/sign_up', methods=('GET', 'POST'))
 def sign_up():
     form = UserCreateForm()
 
     if request.method == 'POST':
 
         user = db.user.find_one({'user_id': form.user_id.data})
-        if user is None:
+        if user is None and form.validate_on_submit():
             new_user = {
                 'user_id': form.user_id.data,
                 'user_name': form.user_name.data,

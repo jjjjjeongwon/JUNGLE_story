@@ -19,12 +19,13 @@ def create_app():
 
     jwt = JWTManager(app)
 
-    from views import root_views, sign_up, post_list, post_upload, post_detail
+    from views import root_views, sign_up, post_list, post_upload, post_detail, post_comment
     app.register_blueprint(root_views.bp)
     app.register_blueprint(sign_up.bp)
     app.register_blueprint(post_list.bp)
     app.register_blueprint(post_upload.bp)
     app.register_blueprint(post_detail.bp)
+    app.register_blueprint(post_comment.bp)
 
     from filter import format_datetime
     app.jinja_env.filters['datetime'] = format_datetime

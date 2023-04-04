@@ -5,7 +5,9 @@
     <h2 class="border-bottom py-2">{{ post.title }}</h2>
     <div class="card my-3">
         <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{ post.content }}</div>
+            <div class="card-text" style="white-space: pre-line;">
+                {{ post.content }}
+            </div>
             <div class="d-flex justify-content-end">
                 <div class="badge badge-light p-2">
                     작성자: {{ post.user_id }}
@@ -17,26 +19,61 @@
         </div>
     </div>
 
+    <!-- Flash error area -->
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger" role="start">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <!-- Like Area -->
+    <div class="row">
+        <a href="{{ url_for('post_detail.like', create_date=post.create_date) }}" class="btn btn-danger col-1">
+            좋아요 {{ post.like | length }}
+        </a>
+    </div>
     <h5 class="border-bottom my-3 py-2">{{ post.comment_set|length }}개의 답변이 있습니다.</h5>
+
+    <!-- Download File -->
+    {% if post.file %}
+    <a href="#" class="btn btn-outline-dark" role="button" download>
+        Download:
+        {{ post.get_file_name }}
+    </a>
+    {% endif %}
+
+    <!-- Comment Area -->
     {% for comment in post.comment_set %}
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{ comment.commentContent }}</div>
-            <div class="d-flex justify-content-end">
-                <div class="badge badge-light p-2">
-                    작성자: {{ comment.userid }}
-                </div>
-                <div class="badge badge-light p-2">
-                    {{ comment.commentCreateTime }}
+    <section class="mb-5" id="comment-{{ comment._id }}">
+        <div class="card bg-light">
+            <div class="card-body">
+                <!-- Comment with nested comments-->
+                <div class="d-flex">
+                    <!-- Parent comment-->
+                    <div class="flex-shrink-0">
+                        <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+                    </div>
+                    <div class="ms-3">
+                        <div class="fw-bold">{{ comment.user_name }}</div>
+                        {{ comment.comment_content }}
+                        <br/>
+                        {{ comment.create_date }}
+                        <br/>
+                        {% if g.user.user_id == comment.user_id %}
+                        <a href="#" class="btn btn-secondary">수정</a>
+                        <a href="{{ url_for('post_comment.delete', create_date=comment.create_date) }}" class="btn btn-danger">삭제</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     {% endfor %}
-    <form action="#" method="post" class="my-3">
+
+    <!-- Posting Comment -->
+    <form action="{{ url_for('post_comment.create', create_date=post.create_date) }}" method="post" class="my-3">
         <div class="form-group">
-            <textarea name="commentContent" id="commentContent" rows="15" class="form-control"></textarea>
-            <textarea name="userid" id="userid" rows="1" class="form-control"></textarea>
+            <textarea name="commentContent" id="commentContent" rows="10" class="form-control" required></textarea>
         </div>
         <input type="submit" value="댓글달기" class="btn btn-primary">
     </form>
