@@ -19,17 +19,19 @@ def post_upload():
         post_file = request.form['post_file']
 
         today = datetime.now()
+        today = today.strftime('%Y%m%d%H%M%S')
 
         new_post = {
             'title': post_title,
             'content': post_content,
             'file': post_file,
             'create_date': today,
-            'author': g.user['user_id']
+            'user_id': g.user['user_id'],
+            'user_name': g.user['user_name']
         }
 
-        res = db.post.insert_one(new_post)
-        print(new_post)
-        print(res)
+        db.post.insert_one(new_post)
+
+        return redirect(url_for('post_list.post_list'))
 
     return render_template('post_upload.html')

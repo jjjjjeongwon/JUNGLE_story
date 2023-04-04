@@ -37,12 +37,15 @@ def root():
                 'HS256'
             )
 
-            return redirect(url_for('post_list.post_list', access_token=token)), 200
+            # return redirect(url_for('post_list.post_list', access_token=token)), 200
+            return redirect(url_for('post_list.post_list'))
         else:
             flash(error)
 
         return render_template('root_views.html', form=form)
-    return render_template('root_views.html', form=form)
+    else:
+        list_user = list(db.user.find({}))
+        return render_template('root_views.html', form=form, list_user=list_user)
 
 
 @bp.route('/sign_up/', methods=('GET', 'POST'))
@@ -81,8 +84,6 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwagrs):
         access_token = request.headers.get('Authorization')  # 요청의 토큰 정보를 받아옴
-        print("FUCKING DEBUG ")
-        print(request.headers)
         if access_token is not None:  # 토큰이 있는 경우
             payload = check_access_token(access_token)  # 토큰 유효성 확인
             if payload is None:  # 토큰 decode 실패 시 401 반환

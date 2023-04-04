@@ -18,7 +18,6 @@ class UserCreateForm(FlaskForm):
     password2 = PasswordField('비밀번호 확인', validators=[DataRequired()])
 
 
-
 class UserLoginForm(FlaskForm):
     user_id = EmailField('이메일', [DataRequired(), Email()])
     password = PasswordField('비밀번호', validators=[DataRequired()])
