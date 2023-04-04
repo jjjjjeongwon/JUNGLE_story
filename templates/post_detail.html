@@ -36,7 +36,8 @@
 
     <!-- Download File -->
     {% if post.file %}
-    <a href="#" class="btn btn-outline-dark" role="button" download>
+    <a href="{{ url_for('post_detail.download_file', create_date=post.create_date) }}" class="btn btn-outline-dark"
+        role="button" download>
         Download:
         {{ post.get_file_name }}
     </a>
@@ -56,12 +57,13 @@
                     <div class="ms-3">
                         <div class="fw-bold">{{ comment.user_name }}</div>
                         {{ comment.comment_content }}
-                        <br/>
+                        <br />
                         {{ comment.create_date }}
-                        <br/>
+                        <br />
                         {% if g.user.user_id == comment.user_id %}
                         <a href="#" class="btn btn-secondary">수정</a>
-                        <a href="{{ url_for('post_comment.delete', create_date=comment.create_date) }}" class="btn btn-danger">삭제</a>
+                        <a href="{{ url_for('post_comment.delete', create_date=comment.create_date) }}"
+                            class="btn btn-danger">삭제</a>
                         {% endif %}
                     </div>
                 </div>
@@ -70,12 +72,17 @@
     </section>
     {% endfor %}
 
-    <!-- Posting Comment -->
+
+    <!-- Posting Comment  -->
     <form action="{{ url_for('post_comment.create', create_date=post.create_date) }}" method="post" class="my-3">
         <div class="form-group">
             <textarea name="commentContent" id="commentContent" rows="10" class="form-control" required></textarea>
         </div>
         <input type="submit" value="댓글달기" class="btn btn-primary">
     </form>
+    {% if g.user.user_id == post.user_id %}
+    <a href="{{ url_for('post_upload.post_modify', create_date=post.create_date) }}" class="btn btn-secondary">수정</a>
+    <a href="{{ url_for('post_detail.delete_posts', create_date=post.create_date) }}" class="btn btn-danger">삭제</a>
+    {% endif %}
 </div>
 {% endblock %}
