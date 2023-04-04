@@ -48,7 +48,7 @@ def select_user(user_id):
 
     user_post_list = copy.deepcopy(postList)
 
-    for post in user_post_list:
+    for post in postList:
         if post['user_id'] != selected_user['user_id']:
             user_post_list.remove(post)
 

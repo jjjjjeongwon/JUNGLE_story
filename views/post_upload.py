@@ -27,7 +27,8 @@ def post_upload():
             'file': post_file,
             'create_date': today,
             'user_id': g.user['user_id'],
-            'user_name': g.user['user_name']
+            'user_name': g.user['user_name'],
+            'like': []
         }
 
         db.post.insert_one(new_post)
