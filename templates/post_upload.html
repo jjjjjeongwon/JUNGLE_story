@@ -1,6 +1,33 @@
 {% extends "base2.html" %}
 {% block content %}
 
-Post_upload 를 작성해주세요~
+<form method="post" class="post-form">
+
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="post_title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="post_title" name="post_title" placeholder="제목을 입력해주세요">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="post_content" class="form-label">내용</label>
+            <textarea class="form-control" id="post_content" placeholder="내용을 입력해주세요" name="post_content"
+                required></textarea>
+
+        </div>
+
+        <div class="form-group">
+            <label for="post_file" class="form-label">첨부파일</label>
+            <input class="form-control" type="file" id="post_file" name="post_file">
+        </div>
+
+
+
+        <button type="submit" class="btn btn-warning">저장하기</button>
+
+    </div>
+</form>
 
 {% endblock %}
