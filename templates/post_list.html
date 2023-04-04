@@ -17,18 +17,16 @@
         <tr class="text-center">
             <td>{{ loop.index }}</td>
             <td class="text-left">
-                <a href="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}">{{ post.title }}</a>
+                <a href="{{ url_for('post_list.read_post', create_date=post.create_date) }}"> {{ post.title }}</a>
                 {% if post.file %}
                 <i class="fa-sharp fa-solid fa-file"></i>
                 {% endif %} 
             </td>
             <td>
-                {% if post.author %}
-                <a>{{ post.author }}</a>
-                {% endif %}
+                <a>{{ post.user_name }}</a>
             </td>
             <td>
-                <a>{{ post.create_date|datetime }}</a>
+                <a>{{ post.create_date }}</a>
             </td>
         </tr>
         {% endfor %}
