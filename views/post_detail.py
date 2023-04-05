@@ -75,8 +75,5 @@ def download_file(create_date):
 
     outputdata = post['file']
 
-    print('downfile ' + outputdata)
+    print('ssdefds', outputdata)
     return send_file(outputdata, as_attachment=True)
-
-
-
