@@ -24,7 +24,6 @@ def post_list():
         kw = ''
 
     postList = list(db.post.find({}).sort('create_date', -1))
-
     list_user = list(db.user.find({}))
     list_user = renewal_user_list(list_user)
 
@@ -141,9 +140,16 @@ def set_post_name_q():
 
 
 def renewal_user_list(list_user):
+
     postList = list(db.post.find({}).sort('create_date', -1))
     now_user = db.user.find_one({'user_id': g.user['user_id']})
-    list_user.remove(now_user)
+
+    for user in list_user:
+        try:
+            a = user['user_id']
+        except KeyError as e:
+            list_user.remove(user)
+
     for user in list_user:
         user['entire_like'] = 0
     now_user['entire_like'] = 0
@@ -151,10 +157,7 @@ def renewal_user_list(list_user):
     for post in postList:
         for user in list_user:
             if post['user_id'] == user['user_id']:
-                try:
-                    user['entire_like'] = user['entire_like'] + 1
-                except Exception as e:
-                    print("DOUBLE FOR ERROR")
+                user['entire_like'] = user['entire_like'] + 1
 
     list_user = sorted(list_user, key=lambda x: -x['entire_like'])
     list_user.insert(0, now_user)

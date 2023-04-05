@@ -1,8 +1,9 @@
 from flask import Blueprint, url_for, render_template, flash, request, redirect, session, g, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from datetime import datetime, timedelta
+from flask_jwt_extended import create_access_token
 import jwt
-import datetime
 from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
@@ -31,14 +32,12 @@ def root():
             session['user_id'] = user['user_id']
             session['user_name'] = user['user_name']
 
-            token = jwt.encode(
-                {'user_id': session['user_id'], 'exp':datetime.datetime.utcnow() + datetime.timedelta(seconds=60)},
-                "yes",
-                'HS256'
-            )
-
-            # return redirect(url_for('post_list.post_list', access_token=token)), 200
-            return redirect(url_for('post_list.post_list'))
+            payload = {
+                'id': user['user_id'],
+                'exp': datetime.utcnow() + timedelta(seconds=60)
+            }
+            token = jwt.encode(payload, 'yes', algorithm='HS256')
+            return redirect(url_for('post_list.post_list', access_token=token))
         else:
             flash(error)
 
