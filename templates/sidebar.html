@@ -1,8 +1,8 @@
-<div class="col-4">
+<div class="col-4 ">
 
     <!-- Search widget-->
     <div class="card mb-4">
-        <div class="card-header">Search</div>
+        <div class="card-header">유저 검색</div>
         <div class="card-body">
             <form action="{{ url_for('post_list.post_list') }}" method="post">
                 <div class="input-group">
@@ -21,7 +21,7 @@
     {% set ranking = {'value': 0} %}
     <!-- User widget-->
     <div class="card mb-4">
-        <div class="card-header">Current Users</div>
+        <div class="card-header">인기 유저 순위</div>
         <div class="card-body">
             <div class="row">
                 <ul class="list-unstyled mb-0">
@@ -29,50 +29,50 @@
                     <li>
                         <a href="{{ url_for('post_list.select_user', user_id=g.user.user_id) }}">
                             <i class="fas fa-sharp fa-regular fa-face-smile" style="color: #f0d20f;"></i>
-                            {{ g.user.user_name }}  {{ g.user.user_id }}
+                            {{ g.user.user_name }} {{ g.user.user_id }}
                         </a>
-                        <hr/>
+                        <hr />
                     </li>
                     {% endif %}
-                {% if list_user %}
+                    {% if list_user %}
                     {% for user in list_user %}
 
-                        <!-- Set ranking -->
-                        {% if user.user_id == selected_user.user_id %}
-                            {% if ranking.update({'value': loop.index}) %}
-                            {% endif %}
-                        {% endif %}
+                    <!-- Set ranking -->
+                    {% if user.user_id == selected_user.user_id %}
+                    {% if ranking.update({'value': loop.index}) %}
+                    {% endif %}
+                    {% endif %}
 
-                        {% if loop.index == 1 %}
-                        <li>
-                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
-                                <i class="fa-sharp fa-solid fa-crown" style="color: #edc602"></i>
-                                {{ user.user_name }}  {{ user.user_id }}
-                            </a>
-                        </li>
-                        {% elif loop.index == 2 %}
-                        <li>
-                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
-                                <i class="fa-sharp fa-solid fa-crown" style="color: #bdbdbd"></i>
-                                {{ user.user_name }} {{ user.user_id }}
-                            </a>
-                        </li>
-                        {% elif loop.index == 3 %}
-                        <li>
-                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
-                                <i class="fa-sharp fa-solid fa-crown" style="color: #CD7F32"></i>
-                                {{ user.user_name }} {{ user.user_id }}
-                            </a>
-                        </li>
-                        {% else %}
-                        <li>
-                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
-                                {{ user.user_name }} {{ user.user_id }}
-                            </a>
-                        </li>
-                        {% endif %}
+                    {% if loop.index == 1 %}
+                    <li>
+                        <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                            <i class="fa-sharp fa-solid fa-crown" style="color: #edc602"></i>
+                            {{ user.user_name }} {{ user.user_id }}
+                        </a>
+                    </li>
+                    {% elif loop.index == 2 %}
+                    <li>
+                        <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                            <i class="fa-sharp fa-solid fa-crown" style="color: #bdbdbd"></i>
+                            {{ user.user_name }} {{ user.user_id }}
+                        </a>
+                    </li>
+                    {% elif loop.index == 3 %}
+                    <li>
+                        <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                            <i class="fa-sharp fa-solid fa-crown" style="color: #CD7F32"></i>
+                            {{ user.user_name }} {{ user.user_id }}
+                        </a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                            {{ user.user_name }} {{ user.user_id }}
+                        </a>
+                    </li>
+                    {% endif %}
                     {% endfor %}
-                {% endif %}
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="card-header">정글러 정보</div>
         {% if selected_user %}
         <div class="card-body">
-            <p>ID  : {{ selected_user.user_id }} </p>
+            <p>ID : {{ selected_user.user_id }} </p>
             <p>이름 : {{ selected_user.user_name }} </p>
             <p>랭킹 : {{ ranking.value }} </p>
 
@@ -96,13 +96,13 @@
 
         {% if user_post_list %}
         {% for post in user_post_list %}
-            <p class="ms-3">
-                <i class="fas fa-sharp fa-light fa-book" style="color: #f0d20f;"></i>
-                </i>
-                <a href="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}">
-                    {{ post.title }}
-                </a>
-            </p>
+        <p class="ms-3">
+            <i class="fas fa-sharp fa-light fa-book" style="color: #f0d20f;"></i>
+            </i>
+            <a href="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}">
+                {{ post.title }}
+            </a>
+        </p>
 
         {% endfor %}
 

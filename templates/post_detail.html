@@ -1,18 +1,18 @@
 {% extends "base2.html" %}
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
-<div class="container my-3 ">
-    <div class="d-flex justify-content-end">
-        <div class="badge badge-light p-2">
+<div class="container my-3  ">
+    <div class="d-flex flex-column justify-content-end align-items-end ">
+        <div class="badge badge-light p-2 col-3 d-flex justify-content-end">
             작성자: {{ post.user_name }}
         </div>
-        <div class="badge badge-light p-2">
-            {{ post.create_date }}
+        <div class="badge badge-light p-2 col-3 d-flex justify-content-end">
+            {{ post.create_date | datetime}}
         </div>
     </div>
     <h2 class="border-bottom py-2">{{ post.title }}</h2>
     <div class="card my-3" style="border: none;">
-        <div class="card-body">
+        <div class="card-body ">
             <div class="card-text">
                 {{ post.content }}
             </div>
@@ -48,9 +48,14 @@
 
     <!-- Like Area -->
     <div class="d-grid gap-2  d-md-flex justify-content-md-end">
-        <a href="{{ url_for('post_detail.like', create_date=post.create_date) }}" class=" likey btn btn-danger ">
-            좋아요 {{ post.like | length }}
+
+        <a href="{{ url_for('post_detail.like', create_date=post.create_date) }}" class=" likey  ">
+            <!-- btn btn-danger -->
+            <i class="fa-solid fa-thumbs-up fa-xl" style="color: #ea1a1a;"></i>
+
+
         </a>
+        좋아요 {{ post.like | length }}
     </div>
 
 
@@ -87,7 +92,7 @@
                             <div class="fw-bold">{{ comment.user_name }}</div>
                             <div> {{ comment.comment_content }} </div>
                             {% if comment.modified_date == None %}
-                            <div> {{ comment.create_date }} </div>
+                            <div> {{ comment.create_date | datetime}} </div>
                             {% else %}
                             <div> 수정된날:_{{ comment.modified_date }} </div>
                             {% endif %}
