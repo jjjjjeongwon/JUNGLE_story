@@ -1,4 +1,4 @@
-import os
+import os, platform
 import gridfs
 from flask import Blueprint, url_for, render_template, flash, request
 from flask import redirect, session, g
@@ -10,7 +10,8 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.dbjungle
 
-UPLOAD_FOLDER = os.getcwd() + '\\upload'
+
+UPLOAD_FOLDER = os.getcwd() + '/upload'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 UPLOAD_FILE = None
@@ -31,7 +32,13 @@ def post_upload():
     if request.method == 'POST':
 
         post_file = request.files['post_file']
-        print('테스트 프린트', post_file)
+
+        if post_file and allowed_file(post_file.filename):
+            filename = post_file.filename
+            filepathtosave = os.path.join(UPLOAD_FOLDER, filename)
+            post_file.save(filepathtosave)
+            print(filepathtosave)
+            UPLOAD_FILE = filepathtosave
 
         post_title = request.form['post_title']
         post_content = request.form['post_content']
@@ -39,15 +46,10 @@ def post_upload():
         today = datetime.now()
         today = today.strftime('%Y%m%d%H%M%S')
 
-        fs = gridfs.GridFS(db)
-        file_img_id = fs.put(post_file, filename=today)
-
-        print(file_img_id)
-
         new_post = {
             'title': post_title,
             'content': post_content,
-            'file': file_img_id,
+            'file': UPLOAD_FILE,
             'create_date': today,
             'user_id': g.user['user_id'],
             'user_name': g.user['user_name'],

@@ -15,7 +15,12 @@
 
         <div class="form-group">
             <label for="post_file" class="form-label">첨부파일</label>
+            {% if post.file %}
+            <a>파일 있음</a>
+            {% endif %}
             <input class="form-control" type="file" id="post_file" name="post_file">
+
+
         </div>
 
         <input type="submit" value="수정하기" class="btn btn-warning">
