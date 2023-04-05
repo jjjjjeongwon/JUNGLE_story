@@ -17,13 +17,21 @@ bp = Blueprint('post_list', __name__, url_prefix='/post_list')
 
 @bp.route('/', methods=('GET', 'POST'))
 def post_list():
-    # token = request.args['access_token']
+
+    kw = request.form['kw']
+
     postList = list(db.post.find({}).sort('create_date', -1))
 
     list_user = list(db.user.find({}))
     list_user = renewal_user_list(list_user)
 
-    # return render_template('post_list.html', post_list=postList, access_token=token, list_user=list_user), 200
+    if kw:
+        user = db.user.find_one({'user_id':kw})
+        return select_user(user[exec(
+
+
+        )])
+
     return render_template('post_list.html', post_list=postList, list_user=list_user), 200
 
 

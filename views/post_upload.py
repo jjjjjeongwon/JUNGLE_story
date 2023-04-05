@@ -69,7 +69,7 @@ def post_modify(create_date):
     if request.method == "POST":
         title = request.form['post_title']
         content = request.form['post_content']
-        post.update_many({'create_date': create_date}, {
+        post.update_one({'create_date': create_date}, {
             "$set": {
                 "title": title,
                 "content": content

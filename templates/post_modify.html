@@ -1,21 +1,16 @@
 {% extends "base2.html" %}
 {% block content %}
 
-<form method="post" class="post-form" enctype=multipart/form-data>
+<form action="{{ url_for('post_detail.modify_posts_work', create_date=post.create_date) }}" class="post-form">
 
     <div class="form-group">
         <div class="mb-3">
-            <label for="post_title" class="form-label">제목</label>
-            <input type="text" class="form-control" id="post_title" name="post_title" placeholder="제목을 입력해주세요" required>
+<!--            <label for="post_title" class="form-label">제목</label>-->
+            <textarea for="post_title" name="post_title" id="post_title" rows="1" class="form-control">{{ post.title }}</textarea>
         </div>
-    </div>
-
-    <div class="form-group">
         <div class="mb-3">
             <label for="post_content" class="form-label">내용</label>
-            <textarea class="form-control" id="post_content" placeholder="내용을 입력해주세요" name="post_content"
-                required></textarea>
-
+            <textarea for="post_content" class="form-control" id="post_content" name="post_content" rows="10">{{ post.content }}</textarea>
         </div>
 
         <div class="form-group">
@@ -23,9 +18,9 @@
             <input class="form-control" type="file" id="post_file" name="post_file">
         </div>
 
-        <button type="submit" class="btn btn-warning">저장하기</button>
-
+        <input type="submit" value="수정하기" class="btn btn-warning">
     </div>
+
 </form>
 
 {% endblock %}
