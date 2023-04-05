@@ -2,9 +2,15 @@ from flask import Flask
 from pymongo import MongoClient
 from flask_jwt_extended import *
 
-import config
+import config, platform
 
-client = MongoClient('localhost', 27017)
+
+current_operating_system = platform.system()
+if current_operating_system == 'Windows' or current_operating_system == 'Darwin':
+    client = MongoClient('localhost', 27017)
+else:
+    client = MongoClient('mongodb://asdf:asdf1234@localhost', 27017)
+
 db = client.dbjungle
 
 
@@ -36,3 +42,6 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     app.run('0.0.0.0', port=5000, debug=True)
+
+
+

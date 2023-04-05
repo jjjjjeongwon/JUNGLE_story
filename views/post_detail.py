@@ -2,10 +2,16 @@ from flask import Blueprint, url_for, render_template, flash, request, send_file
 from flask import redirect, session, g
 from datetime import datetime
 
-
 from pymongo import MongoClient
 
-client = MongoClient('localhost', 27017)
+import platform
+
+current_operating_system = platform.system()
+if current_operating_system == 'Windows' or current_operating_system == 'Darwin':
+    client = MongoClient('localhost', 27017)
+else:
+    client = MongoClient('mongodb://asdf:asdf1234@localhost', 27017)
+
 db = client.dbjungle
 bp = Blueprint('post_detail', __name__, url_prefix='/post_detail')
 

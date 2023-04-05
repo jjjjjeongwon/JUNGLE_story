@@ -3,10 +3,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime, timedelta
 from flask_jwt_extended import create_access_token
-import jwt
+import jwt, platform
 from pymongo import MongoClient
 
-client = MongoClient('localhost', 27017)
+current_operating_system = platform.system()
+if current_operating_system == 'Windows' or current_operating_system == 'Darwin':
+    client = MongoClient('localhost', 27017)
+else:
+    client = MongoClient('mongodb://asdf:asdf1234@localhost', 27017)
 db = client.dbjungle
 
 from forms import UserLoginForm

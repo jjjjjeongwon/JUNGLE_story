@@ -4,7 +4,13 @@ from datetime import datetime
 
 from pymongo import MongoClient
 
-client = MongoClient('localhost', 27017)
+import platform
+
+current_operating_system = platform.system()
+if current_operating_system == 'Windows' or current_operating_system == 'Darwin':
+    client = MongoClient('localhost', 27017)
+else:
+    client = MongoClient('mongodb://asdf:asdf1234@localhost', 27017)
 db = client.dbjungle
 bp = Blueprint('post_comment', __name__, url_prefix='/post_comment')
 

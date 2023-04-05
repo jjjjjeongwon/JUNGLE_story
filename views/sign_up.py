@@ -5,7 +5,13 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
 from forms import UserCreateForm
 
-client = MongoClient('localhost', 27017)
+import platform
+
+current_operating_system = platform.system()
+if current_operating_system == 'Windows' or current_operating_system == 'Darwin':
+    client = MongoClient('localhost', 27017)
+else:
+    client = MongoClient('mongodb://asdf:asdf1234@localhost', 27017)
 db = client.dbjungle
 
 bp = Blueprint('sign_up', __name__, url_prefix='/sign_up')
