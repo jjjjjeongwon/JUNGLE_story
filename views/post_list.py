@@ -5,7 +5,7 @@ from datetime import datetime
 
 from pymongo import MongoClient
 
-import copy
+import copy, jwt
 
 # from .root_views import login_required
 
@@ -17,6 +17,8 @@ bp = Blueprint('post_list', __name__, url_prefix='/post_list')
 
 @bp.route('/', methods=('GET', 'POST'))
 def post_list():
+
+    print(request.method)
 
     if request.form.keys():
         kw = request.form['kw']
@@ -35,6 +37,8 @@ def post_list():
         user = db.user.find_one({'user_name': kw})
         if user is not None:
             return select_user(user['user_id'])
+    else:
+        return select_user(g.user['user_id'])
 
     return render_template('post_list.html', post_list=postList, list_user=list_user), 200
 
@@ -45,7 +49,6 @@ def write_post():
 
 
 @bp.route('/read_post/<create_date>/')
-# @login_required
 def read_post(create_date):
     return redirect(url_for('post_detail.post_detail', create_date=create_date))
 
@@ -69,7 +72,6 @@ def select_user(user_id):
 
 
 @bp.route('/root/write_sample_post')
-# @login_required
 def write_sample_post():
     user_id = 'q@q.q'
     user_name = 'q'
@@ -154,13 +156,17 @@ def renewal_user_list(list_user):
         user['entire_like'] = 0
     now_user['entire_like'] = 0
 
+    # list_user.remove(now_user)
+
     for post in postList:
-        for user in list_user:
-            if post['user_id'] == user['user_id']:
-                user['entire_like'] = user['entire_like'] + 1
+        for like_user in post['like']:
+            for user in list_user:
+                if like_user == user['user_id']:
+                    user['entire_like'] = user['entire_like'] + 1
 
     list_user = sorted(list_user, key=lambda x: -x['entire_like'])
-    list_user.insert(0, now_user)
-
     return list_user
 
+
+def test_list():
+    return [11, 22, 33, 44, 55]

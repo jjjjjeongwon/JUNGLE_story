@@ -8,41 +8,85 @@
                 <div class="input-group">
                     <input for="kw" name="kw" id="kw" class="form-control kw" value="{{ kw or '' }}">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit" id="btn_search">찾기</button>
+                        <button class="btn btn-outline-secondary" type="submit" id="btn_search">
+                            <i class="fas fa-sharp fa-light fa-magnifying-glass" style="color: #2555a7;"></i>
+                            찾기
+                        </button>
                     </div>
                 </div>
             </form>
 
         </div>
     </div>
-
-    <!-- Categories widget-->
+    {% set ranking = {'value': 0} %}
+    <!-- User widget-->
     <div class="card mb-4">
-        <div class="card-header">Top Users</div>
+        <div class="card-header">Current Users</div>
         <div class="card-body">
             <div class="row">
                 <ul class="list-unstyled mb-0">
-                {% if list_user %}
-                {% for user in list_user %}
-                    {% if loop.index == 1 %}
-                    <li><a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">[본인] {{ user.user_name }}  {{ user.user_id }}</a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">{{ user.user_name }} {{ user.user_id }}</a></li>
+                    {% if selected_user %}
+                    <li>
+                        <a href="{{ url_for('post_list.select_user', user_id=g.user.user_id) }}">
+                            <i class="fas fa-sharp fa-regular fa-face-smile" style="color: #f0d20f;"></i>
+                            {{ g.user.user_name }}  {{ g.user.user_id }}
+                        </a>
+                        <hr/>
+                    </li>
                     {% endif %}
-                {% endfor %}
+                {% if list_user %}
+                    {% for user in list_user %}
+
+                        <!-- Set ranking -->
+                        {% if user.user_id == selected_user.user_id %}
+                            {% if ranking.update({'value': loop.index}) %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% if loop.index == 1 %}
+                        <li>
+                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                                <i class="fa-sharp fa-solid fa-crown" style="color: #edc602"></i>
+                                {{ user.user_name }}  {{ user.user_id }}
+                            </a>
+                        </li>
+                        {% elif loop.index == 2 %}
+                        <li>
+                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                                <i class="fa-sharp fa-solid fa-crown" style="color: #bdbdbd"></i>
+                                {{ user.user_name }} {{ user.user_id }}
+                            </a>
+                        </li>
+                        {% elif loop.index == 3 %}
+                        <li>
+                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                                <i class="fa-sharp fa-solid fa-crown" style="color: #CD7F32"></i>
+                                {{ user.user_name }} {{ user.user_id }}
+                            </a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                                {{ user.user_name }} {{ user.user_id }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- Side widget-->
+    <!-- Info widget-->
     <div class="card mb-4" id="side_widget_bottom">
-        <div class="card-header">Information about</div>
+        <div class="card-header">정글러 정보</div>
         {% if selected_user %}
         <div class="card-body">
-            <p>ID  : {{ selected_user.user_id }}</p>
-            <p>이름 : {{ selected_user.user_name }}</p>
+            <p>ID  : {{ selected_user.user_id }} </p>
+            <p>이름 : {{ selected_user.user_name }} </p>
+            <p>랭킹 : {{ ranking.value }} </p>
+
         </div>
         {% else %}
         <div class="card-body">
@@ -51,11 +95,17 @@
         {% endif %}
 
         {% if user_post_list %}
-        <ul class="card-body">
         {% for post in user_post_list %}
-            <li><a href="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}">{{ post.title }}</a></li>
+            <p class="ms-3">
+                <i class="fas fa-sharp fa-light fa-book" style="color: #f0d20f;"></i>
+                </i>
+                <a href="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}">
+                    {{ post.title }}
+                </a>
+            </p>
+
         {% endfor %}
-        </ul>
+
         {% endif %}
 
     </div>

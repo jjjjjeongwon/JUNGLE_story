@@ -49,8 +49,6 @@ def modify_posts_onclick(create_date):
 def modify_posts_work(create_date):
     post = db.post.find_one({'create_date': create_date})
 
-    print(request)
-
     title = request.args['post_title']
     content = request.args['post_content']
 

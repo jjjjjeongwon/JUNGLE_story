@@ -1,4 +1,5 @@
 {% extends "base2.html" %}
+
 {% block content %}
 <div class="d-flex flex-row-reverse">
     <a href="{{ url_for('post_list.write_post') }}" class="btn btn-primary">포스트 작성</a>
@@ -19,16 +20,44 @@
         <tr class="text-center">
             <td>{{ loop.index }}</td>
             <td class="text-left">
-                <a href="{{ url_for('post_list.read_post', create_date=post.create_date) }}"> {{ post.title }}</a>
-                {% if post.file %}
-                <i class="fa-sharp fa-solid fa-file"></i>
-                {% endif %}
+                <div class="row">
+                    <a class="col-6" href="{{ url_for('post_list.read_post', create_date=post.create_date) }}">
+                        {{ post.title }}
+                    </a>
+
+                    <!-- 파일 존재 여부 -->
+                    <div class="col-2">
+                        {% if post.file %}
+                        <i class="fas fa-sharp fa-solid fa-file"></i>
+                        {% endif %}
+                    </div>
+
+
+                    <!-- 댓글 수 -->
+                    <div class="col-2">
+                        {% if post.comment_set %}
+                        <i class="fas fa-sharp fa-light fa-comments" style="color: #888888"></i>
+                        {{ post.comment_set | length }}
+                    {% endif %}
+                    </div>
+
+                    <!-- 좋아요 수 -->
+                    <div class="col-2">
+                        {% if post.like | length > 0 %}
+                            <i class="fa-solid fa-thumbs-up" style="color: #0752f2"></i>
+                            {{ post.like | length }}
+                        {% endif %}
+                    </div>
+                </div>
+
+
+
             </td>
             <td>
                 <a>{{ post.user_name }}</a>
             </td>
             <td>
-                <a>{{ post.create_date }}</a>
+                <a>{{ post.create_date | datetime }}</a>
             </td>
         </tr>
         {% endfor %}
