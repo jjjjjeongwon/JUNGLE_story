@@ -18,16 +18,24 @@ bp = Blueprint('post_list', __name__, url_prefix='/post_list')
 @bp.route('/', methods=('GET', 'POST'))
 def post_list():
 
-    # kw = request.form['kw']
+    if request.form.keys():
+        kw = request.form['kw']
+    else:
+        kw = ''
 
     postList = list(db.post.find({}).sort('create_date', -1))
 
     list_user = list(db.user.find({}))
     list_user = renewal_user_list(list_user)
 
-    # if kw:
-    #     user = db.user.find_one({'user_id':kw})
-    #     return select_user(user)
+    if kw:
+        user = db.user.find_one({'user_id': kw})
+        if user is not None:
+            return select_user(user['user_id'])
+
+        user = db.user.find_one({'user_name': kw})
+        if user is not None:
+            return select_user(user['user_id'])
 
     return render_template('post_list.html', post_list=postList, list_user=list_user), 200
 
