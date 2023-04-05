@@ -9,10 +9,10 @@
             {% if g.user %}
             <ul class="navbar-nav">
                 <li class="nav-item d-flex justify-content-center me-5 ">
-                    <a class="nav-link fs-5 ">{{ g.user.user_name }}
+                    <a class="nav-link fs-5 " style="font-weight: bold;">{{ g.user.user_name }}
 
                     </a>
-                    <a class=" ms-3 fs-5 d-flex align-items-center" href="{{ url_for('root.logout') }}">
+                    <a class=" ms-2 fs-5 d-flex align-items-center" href="{{ url_for('root.logout') }}">
                         <i class="fas fa-regular fa-arrow-right-from-bracket " style="color: #585b5f;"></i>
                     </a>
 
