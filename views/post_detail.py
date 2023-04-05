@@ -1,8 +1,6 @@
-from flask import Blueprint, url_for, render_template, flash, request, jsonify
+from flask import Blueprint, url_for, render_template, flash, request, send_file
 from flask import redirect, session, g
 from datetime import datetime
-
-import gridfs
 
 
 from pymongo import MongoClient
@@ -44,24 +42,9 @@ def delete_posts(create_date):
 @bp.route('/download/<create_date>', methods=('GET', 'POST'))
 def download_file(create_date):
 
-    fs = gridfs.GridFS(db)
-
     post = db.post.find_one({'create_date': create_date})
 
-    outputdata = fs.get(post['file'])
+    outputdata = post['file']
 
-    # base64_img = codecs.encode(img_binary.read(), 'base64')
-
-    # decode_img = base64_img.decode('utf-8')
-
-    # post['file'] = decode_img
-
-    # my_id = data['_id']
-    # outputdata = fs.get(my_id).read()
-    output = open('./images/'+'back.jpeg', 'wb')
-    output.write(outputdata)
-    return jsonify({'msg': '저장에 성공했습니다.'})
-
-
-
-
+    print('downfile ' + outputdata)
+    return send_file(outputdata, as_attachment=True)
