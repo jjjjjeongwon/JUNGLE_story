@@ -16,4 +16,4 @@ def format_datetime(value, fmt='%Y년 %m월 %d일 %H:%M'):
     f_hour = ''.join(f_hour)
     f_minute = ''.join(f_minute)
 
-    return f_year + "년 " + f_month + "월 " + f_date + "일 " + f_hour + "시 " + f_minute + "분"
+    return f_year + "-" + f_month + "-" + f_date + " " + f_hour + ":" + f_minute

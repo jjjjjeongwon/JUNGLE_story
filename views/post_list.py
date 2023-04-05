@@ -2,6 +2,7 @@ from flask import Blueprint, url_for, render_template, flash, request
 from flask import redirect, session, g
 from flask_jwt_extended import *
 from datetime import datetime
+from functools import wraps
 
 from pymongo import MongoClient
 
@@ -22,15 +23,12 @@ bp = Blueprint('post_list', __name__, url_prefix='/post_list')
 
 @bp.route('/', methods=('GET', 'POST'))
 def post_list():
-
-    print(request.method)
-
     if request.form.keys():
         kw = request.form['kw']
     else:
         kw = ''
 
-    postList = list(db.post.find({}).sort('create_date', -1))
+    list_post = list(db.post.find({}).sort('create_date', -1))
     list_user = list(db.user.find({}))
     list_user = renewal_user_list(list_user)
 
@@ -45,7 +43,7 @@ def post_list():
     else:
         return select_user(g.user['user_id'])
 
-    return render_template('post_list.html', post_list=postList, list_user=list_user), 200
+    return render_template('post_list.html', post_list=list_post, list_user=list_user), 200
 
 
 @bp.route('/write_post')
@@ -148,7 +146,7 @@ def set_post_name_q():
 
 def renewal_user_list(list_user):
 
-    postList = list(db.post.find({}).sort('create_date', -1))
+    list_post = list(db.post.find({}).sort('create_date', -1))
     now_user = db.user.find_one({'user_id': g.user['user_id']})
 
     for user in list_user:
@@ -163,7 +161,7 @@ def renewal_user_list(list_user):
 
     # list_user.remove(now_user)
 
-    for post in postList:
+    for post in list_post:
         for like_user in post['like']:
             for user in list_user:
                 if like_user == user['user_id']:
@@ -173,5 +171,5 @@ def renewal_user_list(list_user):
     return list_user
 
 
-def test_list():
-    return [11, 22, 33, 44, 55]
+
+
