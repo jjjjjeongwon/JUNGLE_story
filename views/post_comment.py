@@ -58,14 +58,14 @@ def delete(create_date):
 def modify_onclick(create_date):
     comment = db.comment.find_one({'create_date': create_date})
     post = db.post.find_one({'_id': comment['post_id']})
-    return render_template('post_modify.html', comment=comment, post=post)
+    return render_template('comment_modify.html', comment=comment, post=post)
 
 
 @bp.route('/modify_work/<create_date>', methods=['GET', 'POST'])
 def modify_work(create_date):
     comment = db.comment.find_one({'create_date': create_date})
     new_content = request.form['new_content']
-    db.comment.update_one({'create_date': create_date}, {'$set': {'content': new_content}})
+    db.comment.update_one({'create_date': create_date}, {'$set': {'comment_content': new_content}})
 
     post = db.post.find_one({'_id': comment['post_id']})
 
@@ -74,9 +74,6 @@ def modify_work(create_date):
     post['comment_set'].append(comment)
     id = post['_id']
     db.post.update_one({'create_date': post['create_date']}, {'$set': {'comment_set': post['comment_set']}})
-
-    new_post = db.post.find_one({'_id':id})
-    print(new_post)
 
     return redirect(url_for('post_detail.post_detail', create_date=post['create_date']))
 

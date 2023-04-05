@@ -51,8 +51,7 @@ def post_upload():
             'create_date': today,
             'user_id': g.user['user_id'],
             'user_name': g.user['user_name'],
-            'like': [],
-            'comment_set': []
+            'like': []
         }
 
         db.post.insert_one(new_post)

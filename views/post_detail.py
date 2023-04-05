@@ -61,3 +61,7 @@ def download_file(create_date):
     output = open('./images/'+'back.jpeg', 'wb')
     output.write(outputdata)
     return jsonify({'msg': '저장에 성공했습니다.'})
+
+
+
+
