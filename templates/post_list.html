@@ -1,6 +1,8 @@
 {% extends "base2.html" %}
 {% block content %}
-<a href="{{ url_for('post_list.write_post') }}" class="btn btn-primary">포스트 작성</a>
+<div class="d-flex flex-row-reverse">
+    <a href="{{ url_for('post_list.write_post') }}" class="btn btn-primary">포스트 작성</a>
+</div>
 <table class="table">
     <thead>
         <tr class="thead-dark">
@@ -20,7 +22,7 @@
                 <a href="{{ url_for('post_list.read_post', create_date=post.create_date) }}"> {{ post.title }}</a>
                 {% if post.file %}
                 <i class="fa-sharp fa-solid fa-file"></i>
-                {% endif %} 
+                {% endif %}
             </td>
             <td>
                 <a>{{ post.user_name }}</a>
