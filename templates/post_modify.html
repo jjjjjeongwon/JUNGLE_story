@@ -1,0 +1,74 @@
+{% extends "base2.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+<div class="container my-3">
+    <!-- Flash error area -->
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger" role="start">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+
+    <div id="comment-{{ comment._id }}">
+        <section class="mb-5" >
+            <div class="card bg-light">
+                <div class="card-body">
+                    <!-- Comment with nested comments-->
+                    <div class="d-flex">
+                        <!-- Parent comment-->
+                        <div class="flex-shrink-0">
+                            <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+                        </div>
+                        <div class="ms-3">
+                            <div class="fw-bold">{{ comment.user_name }}</div>
+                            <div> {{ comment.comment_content }} </div>
+                            {% if comment.modified_date == None %}
+                            <div> {{ comment.create_date }} </div>
+                            {% else %}
+                            <div> {{ comment.modified_date }} </div>
+                            {% endif %}
+
+                            <form action="{{ url_for('post_comment.modify_work', create_date=comment.create_date) }}" method="post" class="my-3">
+                                <div class="form-group">
+                                    <textarea for="new_content" name="new_content" id="new_content" rows="10" class="form-control">{{ comment.comment_content or '' }}
+                                    </textarea>
+                                </div>
+                                <input type="submit" value="수정하기" class="btn btn-primary">
+                            </form>
+                            
+                            <a href="#"
+                               data-uri="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}"
+                               class=" cancle btn btn-danger">
+                                취소하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Write Comment  -->
+
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".modify_comment").on('click', function() {
+            if (confirm("정말로 수정 하시겠습니까?")) {
+                location.href = $(this).data('uri');
+            }
+        });
+
+        $(".cancle").on('click', function() {
+            location.href = $(this).data('uri');
+        })
+    });
+
+
+</script>
+{% endblock %}

@@ -31,7 +31,7 @@ def like(create_date):
                            "$set": {"like": post['like']}}, upsert=True)
     else:
         flash("이미 좋아요를 누르셨습니다.")
-    return render_template('post_detail.html', post=post)
+    return redirect(url_for('post_detail.post_detail', create_date=post['create_date']))
 
 
 @bp.route('/delete/<create_date>')
