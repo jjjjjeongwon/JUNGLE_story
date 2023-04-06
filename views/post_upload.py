@@ -39,9 +39,12 @@ def post_upload():
     if request.method == 'POST':
 
         post_file = request.files['post_file']
-
+        print(post_file.filename)
         if post_file and allowed_file(post_file.filename):
             filename = post_file.filename
+
+            if not os.path.isdir(UPLOAD_FOLDER):
+                os.mkdir(UPLOAD_FOLDER)
             filepathtosave = os.path.join(UPLOAD_FOLDER, filename)
             post_file.save(filepathtosave)
             UPLOAD_FILE = filepathtosave
