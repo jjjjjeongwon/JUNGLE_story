@@ -83,8 +83,8 @@
     <!-- Comment Area -->
     {% for comment in post.comment_set %}
     <div id="comment-{{ comment._id }}">
-        <section class="mb-5">
-            <div class="card bg-light">
+        <section>
+            <div class="card bg-light mb-4">
                 <div class="card-body">
                     <!-- Comment with nested comments-->
                     <div class="d-flex">
@@ -127,9 +127,10 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </section>
     </div>
-    {% endfor %}
+
 
 </div>
 {% endblock %}
