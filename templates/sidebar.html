@@ -19,6 +19,7 @@
         </div>
     </div>
     {% set ranking = {'value': 0} %}
+    {% set count_like = {'value': 0} %}
     <!-- User widget-->
     <div class="card mb-4">
         <div class="card-header">인기 유저 순위</div>
@@ -41,8 +42,11 @@
 
                     <!-- Set ranking -->
                     {% if user.user_id == selected_user.user_id %}
-                    {% if ranking.update({'value': loop.index}) %}
-                    {% endif %}
+                        {% if ranking.update({'value': loop.index}) %}
+                        {% endif %}
+
+                        {% if count_like.update({'value': user.entire_like}) %}
+                        {% endif %}
                     {% endif %}
 
                     {% if loop.index == 1 %}
@@ -88,6 +92,7 @@
             <p>아이디 : {{ selected_user.user_id }} </p>
             <p>이름 : {{ selected_user.user_name }} </p>
             <p>랭킹 : {{ ranking.value }} </p>
+            <p>좋아요 : {{ count_like.value }} </p>
 
         </div>
         {% else %}

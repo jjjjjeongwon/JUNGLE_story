@@ -44,8 +44,9 @@ def post_upload():
             filename = post_file.filename
             filepathtosave = os.path.join(UPLOAD_FOLDER, filename)
             post_file.save(filepathtosave)
-            print(filepathtosave)
             UPLOAD_FILE = filepathtosave
+        else:
+            UPLOAD_FILE = None
 
         post_title = request.form['post_title']
         post_content = request.form['post_content']
