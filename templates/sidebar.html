@@ -42,11 +42,11 @@
 
                     <!-- Set ranking -->
                     {% if user.user_id == selected_user.user_id %}
-                        {% if ranking.update({'value': loop.index}) %}
-                        {% endif %}
+                    {% if ranking.update({'value': loop.index}) %}
+                    {% endif %}
 
-                        {% if count_like.update({'value': user.entire_like}) %}
-                        {% endif %}
+                    {% if count_like.update({'value': user.entire_like}) %}
+                    {% endif %}
                     {% endif %}
 
                     {% if loop.index == 1 %}
@@ -72,7 +72,8 @@
                     </li>
                     {% else %}
                     <li>
-                        <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}">
+                        <a href="{{ url_for('post_list.select_user', user_id=user.user_id) }}"
+                            style="color: black; margin-left: 26px;">
                             {{ user.user_name }} {{ user.user_id }}
                         </a>
                     </li>
@@ -88,12 +89,12 @@
     <div class="card mb-4" id="side_widget_bottom">
         <div class="card-header">정글러 정보</div>
         {% if selected_user %}
-        <div class="card-body">
-            <p>아이디 : {{ selected_user.user_id }} </p>
-            <p>이름 : {{ selected_user.user_name }} </p>
-            <p>랭킹 : {{ ranking.value }} </p>
-            <p>좋아요 : {{ count_like.value }} </p>
-
+        <div class="card-body" style="padding-bottom: 0;">
+            <p style="margin-bottom: 3px;">아이디 : {{ selected_user.user_id }} </p>
+            <p style="margin-bottom: 3px;">이름 : {{ selected_user.user_name }} </p>
+            <p style="margin-bottom: 3px;">랭킹 : {{ ranking.value }} </p>
+            <p style="margin-bottom: 3px;">좋아요 : {{ count_like.value }} </p>
+            <p style="margin-bottom: 0;">작성한 게시글 </p>
         </div>
         {% else %}
         <div class="card-body">
@@ -103,8 +104,8 @@
 
         {% if user_post_list %}
         {% for post in user_post_list %}
-        <p class="ms-3">
-            <i class="fas fa-sharp fa-light fa-book fa-lg" style="color: #f0d20f;"></i>
+        <p class="ms-3" style="margin-bottom: 5px;">
+            <i class=" fas fa-sharp fa-light fa-book fa-lg" style="color: #f0d20f;"></i>
             </i>
             <a href="{{ url_for('post_detail.post_detail', create_date=post.create_date) }}" style=" color: black;">
                 {{ post.title }}
