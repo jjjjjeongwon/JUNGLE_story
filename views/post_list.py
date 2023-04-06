@@ -162,10 +162,14 @@ def renewal_user_list(list_user):
     # list_user.remove(now_user)
 
     for post in list_post:
-        for like_user in post['like']:
-            for user in list_user:
-                if like_user == user['user_id']:
-                    user['entire_like'] = user['entire_like'] + 1
+        for user in list_user:
+            if user['user_id'] == post['user_id']:
+                user['entire_like'] = user['entire_like'] + len(post['like'])
+                break
+
+    print("DEBUG DEBUG")
+    for user in list_user:
+        print(user['user_id'], ' ', user['entire_like'])
 
     list_user = sorted(list_user, key=lambda x: -x['entire_like'])
     return list_user
